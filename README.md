@@ -21,9 +21,9 @@ The system supports live score updates, real-time rank notifications, top-N lead
 ##  Architecture
 
 Client / Game  
-→ Socket.IO  
-→ Node.js Backend  
-→ Redis (Sorted Set)
+Socket.IO  
+Node.js Backend  
+Redis (Sorted Set)
 
 - Writes: WebSockets (score:update)
 - Reads: HTTP APIs + WebSocket pushes
@@ -67,4 +67,18 @@ src/
 
 ```
 GET /leaderboard/rank/:playerId?region=asia&gameMode=solo
+```
+
+## How to Run Locally
+```
+git clone <your-repo-url>
+cd <project-folder>
+```
+
+```bash
+yarn install
+yarn dev
+```
+```bash
+docker compose up -d
 ```
