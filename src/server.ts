@@ -1,11 +1,25 @@
-import dotenv from "dotenv";
-import { server } from "./app";
-import logger from "./utils/logger";
+import { createApp } from "./app";
+import http from "node:http";
+import { env } from "./config/env.config";
+import { initSocket } from "./config/socket.config";
+import { logger } from "./lib/logger";
 
-dotenv.config();
+async function boostrap() {
+  try {
+    const app = createApp();
+    const server = http.createServer(app);
 
-const PORT = process.env.PORT || 3000;
+    const port = Number(env.PORT) || 5000;
 
-server.listen(PORT, () => {
-  logger.info(`Server running on port ${PORT}`);
-});
+    initSocket(server);
+
+    server.listen(port, () => {
+      logger.info(`Server is running on port: http://localhost:${port}`);
+    });
+  } catch (err) {
+    logger.error("Failed to start the server", `${(err as Error).message}`);
+    process.exit(1);
+  }
+}
+
+boostrap();
